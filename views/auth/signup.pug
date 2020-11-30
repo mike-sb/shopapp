@@ -9,7 +9,7 @@ html(lang='en')
     .container
       h1= title
       p Welcome to #{title}
-      form(action='/sigup',method='POST')
+      form(action='/signup',method='POST')
           .formgroup
               lable.small.mb-1.mt-3 Имя:
               input(placeholder='Enter your name', required=true, name='username', type='text', value=formData.username).form-control
