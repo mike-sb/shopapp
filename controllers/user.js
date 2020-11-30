@@ -34,7 +34,9 @@ exports.login = function (req, res, next) {
 
 exports.signup = function (req, res, next) {
     pool.connect().then(client=>{
+        console.log(req.body.username)
         client.query('INSERT INTO Clients(Username,ID_card) Values('+req.body.username+',(SELECT ID_cardFROM Cards WHERE Sale = 0));',['pg-pool']).then(reslt=>{
+          
             client.release();
             console.log('user added', res.rows);
             passport.authenticate('local', {
@@ -44,6 +46,8 @@ exports.signup = function (req, res, next) {
             })(req, res, next)
         })
        
+    }).catch(e=>{
+        console.log(e);
     });
 }
 

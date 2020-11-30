@@ -1,57 +1,55 @@
 let LocalStrategy = require('passport-local').Strategy;
 
-let Pool = require('pg-pool');
+let pg = require('pg');
 
-const config={
-    user:'postgres',
-    password:'94cfpmky',
-    host:'127.0.0.1',
-    port:5432,
-    database:'shop'
+const config = {
+    user: 'postgres',
+    password: '94cfpmky',
+    host: '127.0.0.1',
+    port: 5432,
+    database: 'shop'
 }
 
-let pool=new Pool(config);
+var con = new pg.Client(config);
 
 
 
 
 
-module.exports = function(passport) {
-	passport.serializeUser(function(user, done) {
-		done(null, user.id)
-	});
-	passport.deserializeUser(function(id, done) {
-		models.User.findOne({
-			where: {
-				id : id
-			}
-		}).then(user => {
-			if (user == null) {
-				done(new Error('Wrong user id.'))
-			}
-			done(null, user);
-		})
+module.exports = function (passport) {
+    passport.serializeUser(function (user, done) {
+        done(null, user.id)
     });
-    
-	passport.use(new LocalStrategy({
-        usernameField: 'username', 
-        passwordField: 'username', 
-		passReqToCallback: true
-	},
-	function(req, username, done) {
+    passport.deserializeUser(function (id, done) {
+        con.query(`Select Username From Clients Where id = ${id};`, (err, reslt) => {
 
-        pool.connect().then(client=>{
-            client.query('Select username From Clients Where username='+username+';',['pg-pool']).then(reslt=>{
-                if (user == null) {
-                    console.log('Неверные данные для входа.')
-                    req.flash('message', 'Неверные данные для входа.')
-                    return done(null, false)
-                } 
-                return done(null, user);
-            })
-           
-        }).catch(e=>{
-            console.log(e);
-        });
-	}))
+            if (user == null) {
+                done(new Error('Wrong user id.'))
+            }
+            done(null, reslt);
+        })
+    });
+
+    passport.use(new LocalStrategy({
+        usernameField: 'username',
+        passwordField: 'username',
+        passReqToCallback: true
+    },
+        function (req, username, done) {
+console.log(done)
+            con.connect().then(client => {
+                
+                con.query(`Select * From Clients Where username = '${username}';`, (err, reslt1) => {
+                    if (reslt1 == null) {
+                        console.log('Неверные данные для входа.')
+                        req.flash('message', 'Неверные данные для входа.')
+                        return done(null, false)
+                    }
+                    return done(null, reslt1);
+                })
+
+            }).catch(e => {
+                console.log(e);
+            });
+        }))
 }
