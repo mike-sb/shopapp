@@ -1,0 +1,15 @@
+doctype html
+html(lang='en')
+  include common/head.pug
+  +head("MyShopApp")
+  body
+    header
+    include common/navbar.pug 
+    +navbar(user)
+    .container
+      h1= title
+      p Welcome to #{title}      
+      if user 
+        h3 You enter as  #{user.username}
+  include common/footer.pug
+  +footer()

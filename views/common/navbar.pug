@@ -1,0 +1,33 @@
+mixin navbar(user)
+  nav.navbar.navbar-expand.navbar-dark.bg-dark
+    a(href="/", aria-label="Findee").navbar-brand.mr-0.mr-md-2
+      img(src="/images/", width="36", height="36")
+    .collapse.navbar-collapse
+      ul.navbar-nav.mr-auto
+        li.nav-item
+          a.nav-link MyShopApp
+        li.nav-item
+          a.nav-link(href="/") Главная     
+        if user 
+            li.nav-item
+              .dropdown
+                a#dropdownMenuLink.nav-link.dropdown-toggle(href='#' role='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false')
+                  | Услуги 
+                .dropdown-menu(aria-labelledby='dropdownMenuLink')
+                  if user
+                    a.dropdown-item(href="/req") Заказы
+                  a.dropdown-item(href="/assort") Ассортимент
+                  if user && user.username== "root"
+                    a.dropdown-item(href='/db') Просмотреть данные
+    .navbar-right
+      if user
+         ul.navbar-nav.mr-auto
+            li.nav-item
+              a.nav-link #{user.username}
+            li.nav-item
+              a.nav-link(href="/logout").btn.btn-outline-secondary Выйти
+      if !user
+         ul.navbar-nav.mr-auto.navbar-dark
+            li.nav-item
+                a.nav-link(href="/login").btn.btn-outline-secondary  Вход
+                a.nav-link(href="/register").btn.btn-outline-secondary  Регистрация

@@ -1,0 +1,18 @@
+doctype html
+html(lang='en')
+  include ../common/head.pug
+  +head("MyShopApp")
+  body
+    header
+    include ../common/navbar.pug 
+    +navbar(user)
+    .container
+      h1= title
+      p Welcome to #{title}
+      form(action='/sigup',method='POST')
+          .formgroup
+              lable.small.mb-1.mt-3 Имя:
+              input(placeholder='Enter your name', required=true, name='username', type='text', value=formData.username).form-control
+              button.mt-3.btn.btn-primary(type='submit') Регистрация
+    include ../common/footer.pug
+    +footer()
