@@ -5,7 +5,7 @@
     "database": "shop",
     "host": "127.0.0.1",
     "port":5432,
-    "dialect": "postgesql"
+    "dialect": "postgresql"
   },
   "test": {
     "username": "root",

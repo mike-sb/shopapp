@@ -1,0 +1,20 @@
+doctype html
+html(lang='en')
+  include ../common/head.pug
+  +head("MyShopApp")
+  body
+    header
+    include ../common/navbar.pug 
+    +navbar(user)
+    .container
+        h1.text-center.text-info Покупки
+        if orders
+            for order in orders
+                p Cheque: #{order.id_cheques}
+                if user.username== "root"
+                    p Client id: #{order.id_client}
+                p Product: #{order.name}
+                p Count:   #{order.buy_count}
+                p ____________________________
+    include ../common/footer.pug
+    +footer()

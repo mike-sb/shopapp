@@ -12,12 +12,16 @@ router.get('/login', user.show_login);
 
 router.post('/login', user.login);
 
+router.get('/logout', user.logout);
+
 router.get('/signup', user.show_signup);
 
 router.post('/signup', user.signup);
 
 router.get('/order', main.get_new_order);
 router.post('/order', main.new_order);
+
+router.get('/req', main.get_orders);
 
 
 

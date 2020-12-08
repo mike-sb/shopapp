@@ -8,8 +8,25 @@ html(lang='en')
     +navbar(user)
     .container
       h1= title
+      if message
+        h2.text-success #{message}
       p Welcome to #{title}      
       if user 
         h3 You enter as  #{user.username}
+      .container
+        if products
+          .row.row-cols-3
+            for prod in products
+              .col.card(style='width: 18rem;')
+                img.card-img-top(src='/images/no.png' alt=prod.name)
+                .card-body
+                  h5.card-title #{prod.name}
+                  p.card-text #{prod.category}
+                  p.card-text  #{prod.supplier}
+                  if user
+                    button.btn.btn-primary(id=prod.id) Заказать
+
+
+
   include common/footer.pug
   +footer()

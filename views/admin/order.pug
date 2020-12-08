@@ -17,7 +17,7 @@ html(lang='en')
                     datalist( id="products")
                        if products
                           for product in products
-                              option(value=product) #{product.id}
+                              option(value=product.name) #{product.id}
               lable.small.mb-1.mt-3 Количество:
               input(placeholder='Count', required=true, name='count', type='text').form-control
               button.mt-3.btn.btn-primary(type='submit') Вход

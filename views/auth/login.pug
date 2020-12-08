@@ -13,6 +13,8 @@ html(lang='en')
           .formgroup
               lable.small.mb-1.mt-3 Имя:
               input(placeholder='Enter your name', required=true, name='username', type='text', value=formData.username).form-control
+              lable.small.mb-1.mt-3 Password:
+              input(placeholder='Enter your password', required=true, name='password', type='password', value=formData.password).form-control
               button.mt-3.btn.btn-primary(type='submit') Вход
     include ../common/footer.pug
     +footer()
