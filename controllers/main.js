@@ -1,4 +1,3 @@
-
 const passport = require('passport');
 const myPassport = require('../passport_setup')(passport);
 let pg = require('pg');
@@ -11,11 +10,24 @@ const config = {
 }
 
 
-exports.main_page = function (req, res, next) {
-    res.render('index', { title: 'MyShopApp', user: req.user });
+exports.main_page = function(req, res, next) {
+    let con = new pg.Client(config);
+    con.connect().then(client => {
+
+        con.query(`Select * from Products INNER JOIN Categories on(Categories.id=Products.id_category) INNER JOIN Suppliers on(Suppliers.id_product=Products.id_product);`, (err, reslt1) => {
+            if (err) {
+                console.log(err)
+            }
+            console.log(reslt1);
+            res.render('index', { title: 'MyShopApp', user: req.user, prdos: reslt1.rows });
+
+        });
+    });
+
+    // res.render('index', { title: 'MyShopApp', user: req.user });
 };
 
-exports.get_new_order = function (req, res, next) {
+exports.get_new_order = function(req, res, next) {
     let products = [];
 
     let con = new pg.Client(config);
@@ -36,7 +48,7 @@ exports.get_new_order = function (req, res, next) {
 
 }
 
-exports.new_order = function (req, res, next) {
+exports.new_order = function(req, res, next) {
 
     let con = new pg.Client(config);
     con.connect().then(client => {
@@ -71,7 +83,7 @@ exports.new_order = function (req, res, next) {
 }
 
 
-exports.get_orders = function (req, res, next) {
+exports.get_orders = function(req, res, next) {
     let con = new pg.Client(config);
     con.connect().then(client => {
 
@@ -82,17 +94,16 @@ exports.get_orders = function (req, res, next) {
                 }
                 console.log(reslt1);
                 res.render('admin/orders', { title: 'MyShopApp', user: req.user, orders: reslt1.rows });
-            
+
             });
-        }
-        else {
+        } else {
             con.query(`Select * from Cheques INNER JOIN Sales on(Sales.id_cheques=Cheques.id_cheques) INNER JOIN Products on(Sales.id_product=Products.id_product) Where Cheques.id_client='${req.user.id}';`, (err, reslt1) => {
                 if (err) {
                     console.log(err)
                 }
                 console.log(reslt1);
                 res.render('admin/orders', { title: 'MyShopApp', user: req.user, orders: reslt1.rows });
-            
+
             });
         }
 
@@ -102,3 +113,72 @@ exports.get_orders = function (req, res, next) {
 
 }
 
+
+
+
+
+exports.add_category = function(req, res, next) {
+    let con = new pg.Client(config);
+    con.connect().then(client => {
+
+        con.query(`INSERT INTO Categories(name) Values('${req.body.category}');`, (err, reslt1) => {
+            if (err) {
+                console.log(err)
+            } else {
+                res.status(200).json(message: "OK!");
+            }
+        });
+    });
+}
+
+
+
+exports.add_supplier = function(req, res, next) {
+
+    let con = new pg.Client(config);
+    con.connect().then(client => {
+
+        con.query(`INSERT INTO Categories(name) Values('${req.body.category}');`, (err, reslt1) => {
+            if (err) {
+                console.log(err)
+            } else {
+                res.status(200).json(message: "OK!");
+            }
+        });
+    });
+}
+
+
+
+exports.add_product = function(req, res, next) {
+
+    let con = new pg.Client(config);
+    con.connect().then(client => {
+
+        con.query(`INSERT INTO Categories(name) Values('${req.body.category}');`, (err, reslt1) => {
+            if (err) {
+                console.log(err)
+            } else {
+                res.status(200).json(message: "OK!");
+            }
+        });
+    });
+}
+
+
+
+exports.get_prods = function(req, res, next) {
+
+    let con = new pg.Client(config);
+    con.connect().then(client => {
+
+        con.query(`Select * from Products INNER JOIN Categories on(Categories.id=Products.id_category) INNER JOIN Suppliers on(Suppliers.id_product=Products.id_product);`, (err, reslt1) => {
+            if (err) {
+                console.log(err)
+            }
+            console.log(reslt1);
+            res.status(200).json({ prdos: reslt1.rows });
+
+        });
+    });
+}

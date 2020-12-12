@@ -1,57 +1,61 @@
 $(document).ready(function() {
 
-            $('.close').on('click', () => {
+    $('.close').on('click', () => {
 
+        $('.modal').modal('hide');
+        $('.modal-body').empty();
+    });
+    $('#close').on('click', () => {
+
+        $('.modal').modal('hide');
+        $('.modal-body').empty();
+    });
+
+
+    $('#post_category').on('click', function(e) {
+
+
+        $('.modal').modal('show')
+
+        e.preventDefault();
+    });
+
+
+    $('#save').on('click', function(e) {
+
+        e.preventDefault();
+
+        let category = $('#category').val();
+
+
+        fetch("/add_category", {
+            method: 'POST',
+            credentials: 'same-origin',
+            cors: 'cors',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ category })
+        }).then(res => {
+            console.log("Request complete! response:", res);
+            if (res.status == 200) {
                 $('.modal').modal('hide');
                 $('.modal-body').empty();
-            });
-            $('#close').on('click', () => {
-
-                $('.modal').modal('hide');
-                $('.modal-body').empty();
-            });
+            } else {
+                $('.modal-body').append('<p class="text-danger"> Что-то пошло не так! Повторите попытку позже.</p>')
+            }
 
 
-            $('.register_first_form_button').on('click', function(e) {
+        }).catch((error) => {
+            console.error('Error:', error);
+        });
+
+    });
 
 
-                $('.modal').modal('show')
-
-                e.preventDefault();
-                email = $('#email').val();
-                console.log("Clicked");
 
 
-                fetch("/reg", {
-                    method: 'POST',
-                    credentials: 'same-origin',
-                    cors: 'cors',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ email })
-                }).then(res => {
-                    console.log("Request complete! response:", res);
-                    if (res.status == 200) {
-                        res.json().then(json => {
 
 
-                            $('.modal-title').text(json.filename);
-                            if (json.type == "txt") {
 
-                                $('.modal-body').append('<p>' + json.data + '</p>')
-
-                            }
-                        });
-
-                    } else {
-
-                    }
-
-
-                }).catch((error) => {
-                    console.error('Error:', error);
-                });
-
-
-            });
+});

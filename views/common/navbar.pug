@@ -35,4 +35,17 @@ mixin navbar(user)
             li.nav-item
                 a.nav-link(href="/login").btn.btn-outline-secondary  Вход
                 a.nav-link(href="/signup").btn.btn-outline-secondary  Регистрация
-      
+    #myModal.modal.fade(tabindex='-1' aria-labelledby='exampleModalLabel' aria-hidden='true')
+            .modal-dialog.modal-dialog-centered
+                .modal-content
+                    .modal-header
+                        h5#exampleModalLabel.modal-title
+                        button.close(type='button' data-dismiss='modal' aria-label='Close')
+                        span(aria-hidden='true') &times;
+                    .modal-body
+                      .formgroup
+                        lable.small.mb-1.mt-3 Введите категорию:
+                        input(placeholder='Категория', required=true, id='category' name='category', type='text').form-control
+                    .modal-footer
+                        button.btn.btn-secondary(type='button' data-dismiss='modal') Close
+                        button.btn.btn-primary(id="save" type='button') Save changes
