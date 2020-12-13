@@ -8,19 +8,24 @@ html(lang='en')
     +navbar(user)
     .container
       h1= title
+        if message
+            p.text-success #{message}
       form(action='/add_supplier',method='POST')
             if products.length>0 
              .formgroup
                 lable.small.mb-1.mt-3 Товар:
-                input(id="prod"  name='prod' list="prods").form-control
+                input(id="product"  name='product' list="prods").form-control
                 datalist(id="prods")
                             for prod in products
                                 option(value=prod.id_product) #{prod.name}
-                lable.small.mb-1.mt-3 Поставщик:
-                input(id="name"  name='name' ).form-control
+                lable.small.mb-1.mt-3 Склад:
+                input(id="address"  name='address' list="addresses").form-control
+                datalist(id="addresses")
+                            for store in storages
+                                option(value=store.id_store) #{store.adress}
                 button.mt-3.btn.btn-primary(type='submit') Добавить
             else
-              h1.text-danger Добвьте продукт, прежде чем назначать поставщика
+              h1.text-danger Все продукты разфасованы по складам
 
     include ../common/footer.pug
     +footer()

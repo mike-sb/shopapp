@@ -28,8 +28,16 @@ router.get('/get_sup', main.get_sup);
 router.post('/add_supplier', main.add_supplier);
 router.get('/get_add_product', main.get_add_product);
 router.post('/add_product', main.add_product);
+router.get('/get_add_store', main.get_add_storage);
+router.post('/add_store', main.add_storage);
+router.get('/get_add_prod_address', main.get_add_prod_address);
+router.post('/add_prod_address', main.add_prod_address);
+
+
 
 router.get('/prods', main.get_prods);
+
+
 
 
 module.exports = router;

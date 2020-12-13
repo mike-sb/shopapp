@@ -1,0 +1,20 @@
+doctype html
+html(lang='en')
+  include ../common/head.pug
+  +head("MyShopApp")
+  body
+    header
+    include ../common/navbar.pug 
+    +navbar(user)
+    .container
+      h1= title
+      for prod in products
+                h1 #{prod}
+      form(action='/add_store',method='POST')
+             .formgroup
+                lable.small.mb-1.mt-3 Склад:
+                input(placeholder="Введите адрес склада:" id="address"  name='address' ).form-control
+                button.mt-3.btn.btn-primary(type='submit') Добавить
+
+    include ../common/footer.pug
+    +footer()

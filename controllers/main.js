@@ -241,3 +241,67 @@ exports.get_prods = function(req, res, next) {
         });
     });
 }
+
+
+exports.add_storage = function(req, res, next) {
+    let con = new pg.Client(config);
+    con.connect().then(client => {
+
+        con.query(`INSERT INTO Storages(adress) Values('${req.body.address}');`, (err, reslt1) => {
+            if (err) {
+                console.log(err)
+            } else {
+                res.redirect('/get_add_store')
+            }
+        });
+    });
+}
+
+
+exports.get_add_store = function(req, res, next) {
+
+
+    res.render('admin/new_address', { user: req.user, });
+
+}
+
+
+exports.get_add_prod_address = function(req, res, next) {
+
+    let con = new pg.Client(config);
+    con.connect().then(client => {
+
+        con.query(`Select * from Products left join Avaliables on Avaliables.id_product=products.id_product Where products.id_product is null; `, (err, reslt1) => {
+            if (err) {
+                console.log(err)
+            } else {
+                con.query(`Select * from Storages; `, (err, storages) => {
+                    if (err) {
+                        console.log(err)
+                    } else {
+
+                        res.render('admin/new_prod_address', { user: req.user, products: reslt1.rows, storages: storages.rows });
+                    }
+                });
+            }
+        });
+    });
+}
+
+
+
+exports.add_prod_address = function(req, res, next) {
+    let con = new pg.Client(config);
+    con.connect().then(client => {
+
+        con.query(`INSERT INTO Avaliables(id_product,id_storage) Values('${req.body.product}','${req.body.address}');`, (err, reslt1) => {
+            if (err) {
+                console.log(err)
+                res.render('admin/new_prod_address', { user: req.user, message: "Продукт не удалось добавить. Повторите попытку позже." });
+            } else {
+                res.render('admin/new_prod_address', { user: req.user, message: "Продукт добавлен на склад" });
+            }
+        });
+    });
+
+}

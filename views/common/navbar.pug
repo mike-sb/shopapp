@@ -19,6 +19,8 @@ mixin navbar(user)
                     a.dropdown-item(href="/order") Новый заказ
                   if user && user.username== "root"
                     a.dropdown-item(href="/get_add_product") Добавить Ассортимент
+                    a.dropdown-item(href="/get_add_address") Добавить Склад
+                    a.dropdown-item(href="/get_add_prod_зaddress") Добавить товар на Склад
                     a.dropdown-item(id="post_category") Добавить Категории
                     a.dropdown-item(href="/get_sup") Добавить Поставщика
                     a.dropdown-item(href='/db') Просмотреть данные
