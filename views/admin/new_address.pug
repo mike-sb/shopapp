@@ -8,8 +8,6 @@ html(lang='en')
     +navbar(user)
     .container
       h1= title
-      for prod in products
-                h1 #{prod}
       form(action='/add_store',method='POST')
              .formgroup
                 lable.small.mb-1.mt-3 Склад:

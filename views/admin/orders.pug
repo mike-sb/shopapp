@@ -10,11 +10,11 @@ html(lang='en')
         h1.text-center.text-info Покупки
         if orders
             for order in orders
-                p Cheque: #{order.id_cheques}
+                p Чек номер: #{order.id_cheques}
                 if user.username== "root"
-                    p Client id: #{order.id_client}
-                p Product: #{order.name}
-                p Count:   #{order.buy_count}
+                    p ID клиента: #{order.id_client}
+                p Продукт: #{order.name}
+                p Количество:   #{order.buy_count}
                 p ____________________________
     include ../common/footer.pug
     +footer()

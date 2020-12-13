@@ -174,10 +174,6 @@ exports.get_sup = function(req, res, next) {
                     console.log(prds)
                     res.render('admin/new_sup', { products: prds, user: req.user, });
                 });
-
-
-
-
             }
 
         });
@@ -300,6 +296,63 @@ exports.add_prod_address = function(req, res, next) {
                 res.render('admin/new_prod_address', { user: req.user, message: "Продукт не удалось добавить. Повторите попытку позже." });
             } else {
                 res.render('admin/new_prod_address', { user: req.user, message: "Продукт добавлен на склад" });
+            }
+        });
+    });
+
+}
+
+
+exports.db = function(req, res, next) {
+
+
+    let con = new pg.Client(config);
+    con.connect().then(client => {
+
+        con.query(`Select * from Products INNER JOIN Categories on(Categories.id_category=Products.id_category) INNER JOIN Suppliers on(Suppliers.id_product=Products.id_product);`, (err, products) => {
+            if (err) {
+                console.log(err)
+            } else {
+                con.query(`Select * from Suppliers inner join Products on suppliers.id_product=products.id_product;`, (err, suppliers) => {
+                    if (err) {
+                        console.log(err)
+                    } else {
+                        con.query(`Select * from Categories;`, (err, categories) => {
+                            if (err) {
+                                console.log(err)
+                            } else {
+                                con.query(`Select * from Clients Inner Join Cards on clients.id_card=cards.id_card;`, (err, clients) => {
+                                    if (err) {
+                                        console.log(err)
+                                    } else {
+                                        con.query(`Select * from Cheques INNER JOIN Sales on(Sales.id_cheques=Cheques.id_cheques) INNER JOIN Products on(Sales.id_product=Products.id_product);`, (err, orders) => {
+                                            if (err) {
+                                                console.log(err)
+                                            } else {
+                                                console.log(orders)
+                                                con.query(`Select * from Storages;`, (err, storages) => {
+                                                    if (err) {
+                                                        console.log(err)
+                                                    } else {
+                                                        res.render('admin/db', {
+                                                            user: req.user,
+                                                            products: products.rows,
+                                                            suppliers: suppliers.rows,
+                                                            categories: categories.rows,
+                                                            storages: storages.rows,
+                                                            orders: orders.rows,
+                                                            clients: clients.rows
+                                                        });
+                                                    }
+                                                });
+                                            }
+                                        });
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
             }
         });
     });

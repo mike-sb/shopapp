@@ -26,7 +26,7 @@ html(lang='en')
                   p.card-text.text-info Категория: #{prod.cat_name}
                   p.card-text.text-warning Поставщик: #{prod.sup_name}
                   if user
-                    button.btn.btn-primary(id=prod.id) Заказать
+                    a.btn.btn-primary(href='/order')  Заказать
 
 
 

@@ -1,0 +1,150 @@
+doctype html
+html(lang='en')
+  include ../common/head.pug
+  +head("MyShopApp")
+  body
+    header
+    include ../common/navbar.pug 
+    +navbar(user)
+    .container.mb-3
+        .row.align-items-center.mb-3
+            #accordionExample.accordion.mb-3
+                .row.justify-content-center
+                    .card
+                          #headingOne.card-header
+                            h5.mb-0
+                              button.btn.btn-link(type='button' data-toggle='collapse' data-target='#collapseOne' aria-expanded='true' aria-controls='collapseOne')
+                                | Товары
+                    .card
+                          #headingTwo.card-header
+                            h5.mb-0
+                              button.btn.btn-link.collapsed(type='button' data-toggle='collapse' data-target='#collapseTwo' aria-expanded='false' aria-controls='collapseTwo')
+                                |  Пользователи
+                    .card
+                          #headingThree.card-header
+                            h5.mb-0
+                              button.btn.btn-link.collapsed(type='button' data-toggle='collapse' data-target='#collapseThree' aria-expanded='false' aria-controls='collapseThree')
+                                |  Склады
+                    .card
+                          #headingFour.card-header
+                            h5.mb-0
+                              button.btn.btn-link.collapsed(type='button' data-toggle='collapse' data-target='#collapseFour' aria-expanded='false' aria-controls='collapseFour')
+                                |  Покупки
+                    .card
+                          #headingFive.card-header
+                            h5.mb-0
+                              button.btn.btn-link.collapsed(type='button' data-toggle='collapse' data-target='#collapseFive' aria-expanded='false' aria-controls='collapseFive')
+                                |  Поставщики
+                    .card
+                          #headingSix.card-header
+                            h5.mb-0
+                              button.btn.btn-link.collapsed(type='button' data-toggle='collapse' data-target='#collapseSix' aria-expanded='false' aria-controls='collapseSix')
+                                |  Категории
+                .row.align-items-center
+                    .card-body
+                        #collapseOne.collapse.show(aria-labelledby='headingOne' data-parent='#accordionExample')
+                            .card-body Товары
+                                table.table.table-striped
+                                    thead
+                                        tr
+                                            th(scope='col') 
+                                            th(scope='col') ID продукта
+                                            th(scope='col') Название
+                                            th(scope='col') Категория
+                                            th(scope='col') Поставщик
+                                            th(scope='col') Количество
+                                            th(scope='col') Цена
+                                            th(scope='col') Гарантия
+                                    tbody
+                                        for prod in products
+                                            tr
+                                                th(scope='row') #
+                                                td #{prod.id_product}
+                                                td #{prod.name}
+                                                td #{prod.cat_name}
+                                                td #{prod.sup_name}
+                                                td #{prod.count}
+                                                td #{prod.cost}
+                                                td #{prod.garanty}
+                        #collapseTwo.collapse(aria-labelledby='headingTwo' data-parent='#accordionExample')
+                            .card-body Пользователи
+                                table.table.table-striped
+                                    thead
+                                        tr
+                                            th(scope='col') 
+                                            th(scope='col') ID клиента
+                                            th(scope='col') Скидка(%)
+                                            th(scope='col') Имя
+                                    tbody
+                                        for client in clients
+                                            tr
+                                                th(scope='row') #
+                                                td #{client.id_client}
+                                                td #{client.sale}
+                                                td #{client.username}
+                        #collapseThree.collapse(aria-labelledby='headingThree' data-parent='#accordionExample')
+                            .card-body Склады
+                                table.table.table-striped
+                                    thead
+                                        tr
+                                            th(scope='col') 
+                                            th(scope='col') ID cклада
+                                            th(scope='col') Адрес
+                                    tbody
+                                        for store in storages
+                                            tr
+                                                th(scope='row') #
+                                                td #{store.id_storage}
+                                                td #{store.adress}
+                        #collapseFour.collapse(aria-labelledby='headingFour' data-parent='#accordionExample')
+                            .card-body Покупки
+                                 table.table.table-striped
+                                    thead
+                                        tr
+                                            th(scope='col') 
+                                            th(scope='col') Номер чека
+                                            th(scope='col') ID клиента
+                                            th(scope='col') Дата Время
+                                            th(scope='col') Продукт
+                                            th(scope='col') Количество
+                                    tbody
+                                        for order in orders
+                                            tr
+                                                th(scope='row') #
+                                                td #{order.id_cheques}
+                                                td #{order.id_client}
+                                                td #{order.datum}
+                                                td #{order.name}
+                                                td #{order.count}
+                        #collapseFive.collapse(aria-labelledby='headingFive' data-parent='#accordionExample')
+                            .card-body Поставщики
+                                table.table.table-striped
+                                    thead
+                                        tr
+                                            th(scope='col') 
+                                            th(scope='col') ID поставщика
+                                            th(scope='col') Название
+                                            th(scope='col') Продукт
+                                    tbody
+                                        for sup in suppliers
+                                            tr
+                                                th(scope='row') #
+                                                td #{sup.id_supplier}
+                                                td #{sup.sup_name}
+                                                td #{sup.name}
+                        #collapseSix.collapse(aria-labelledby='headingSix' data-parent='#accordionExample')
+                            .card-body Категории
+                                table.table.table-striped
+                                    thead
+                                        tr
+                                            th(scope='col') 
+                                            th(scope='col') ID категории
+                                            th(scope='col') Название
+                                    tbody
+                                        for cat in categories
+                                            tr
+                                                th(scope='row') #
+                                                td #{cat.id_category}
+                                                td #{cat.cat_name}
+    include ../common/footer.pug
+    +footer()
