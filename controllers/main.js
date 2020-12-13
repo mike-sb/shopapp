@@ -14,12 +14,12 @@ exports.main_page = function(req, res, next) {
     let con = new pg.Client(config);
     con.connect().then(client => {
 
-        con.query(`Select * from Products INNER JOIN Categories on(Categories.id=Products.id_category) INNER JOIN Suppliers on(Suppliers.id_product=Products.id_product);`, (err, reslt1) => {
+        con.query(`Select * from Products INNER JOIN Categories on(Categories.id_category=Products.id_category) INNER JOIN Suppliers on(Suppliers.id_product=Products.id_product);`, (err, reslt1) => {
             if (err) {
                 console.log(err)
             }
             console.log(reslt1);
-            res.render('index', { title: 'MyShopApp', user: req.user, prdos: reslt1.rows });
+            res.render('index', { title: 'MyShopApp', user: req.user, products: reslt1.rows });
 
         });
     });
@@ -115,17 +115,15 @@ exports.get_orders = function(req, res, next) {
 
 
 
-
-
 exports.add_category = function(req, res, next) {
     let con = new pg.Client(config);
     con.connect().then(client => {
 
-        con.query(`INSERT INTO Categories(name) Values('${req.body.category}');`, (err, reslt1) => {
+        con.query(`INSERT INTO Categories(cat_name) Values('${req.body.category}');`, (err, reslt1) => {
             if (err) {
                 console.log(err)
             } else {
-                res.status(200).json(message: "OK!");
+                res.redirect('/get_sup')
             }
         });
     });
@@ -138,16 +136,54 @@ exports.add_supplier = function(req, res, next) {
     let con = new pg.Client(config);
     con.connect().then(client => {
 
-        con.query(`INSERT INTO Categories(name) Values('${req.body.category}');`, (err, reslt1) => {
+        con.query(`INSERT INTO Suppliers(sup_name,id_product) Values('${req.body.name}','${req.body.prod}');`, (err, reslt1) => {
             if (err) {
                 console.log(err)
             } else {
-                res.status(200).json(message: "OK!");
+                res.status(200).json({ message: "OK!" });
             }
         });
     });
 }
 
+async function get_p(con, products) {
+    let prods = [];
+
+    for (let i = 0; i < products.length; i++) {
+        console.log("await: ")
+        let prod = await con.query(`Select * from Products Where name='${products[i].name}';`);
+        prods.push(prod.rows[0]);
+
+    }
+    return prods;
+}
+
+exports.get_sup = function(req, res, next) {
+
+
+    let con = new pg.Client(config);
+    con.connect().then(client => {
+
+        con.query(`Select * from Products left join Suppliers on suppliers.id_product=products.id_product Where suppliers.id_product is null;`, (err, products) => {
+            if (err) {
+                console.log(err)
+            } else {
+
+                get_p(con, products.rows).then(prds => {
+                    console.log("Prods: ")
+                    console.log(prds)
+                    res.render('admin/new_sup', { products: prds, user: req.user, });
+                });
+
+
+
+
+            }
+
+        });
+    });
+
+}
 
 
 exports.add_product = function(req, res, next) {
@@ -155,17 +191,40 @@ exports.add_product = function(req, res, next) {
     let con = new pg.Client(config);
     con.connect().then(client => {
 
-        con.query(`INSERT INTO Categories(name) Values('${req.body.category}');`, (err, reslt1) => {
+        con.query(`INSERT INTO Products(name,id_category,count,cost,garanty) Values('${req.body.name}','${req.body.id_category}','${req.body.count}','${req.body.cost}''${req.body.garanty}');`, (err, reslt1) => {
             if (err) {
                 console.log(err)
             } else {
-                res.status(200).json(message: "OK!");
+                res.status(200).json({ message: "OK!" });
             }
         });
     });
 }
 
+exports.get_add_product = function(req, res, next) {
 
+
+    let con = new pg.Client(config);
+    con.connect().then(client => {
+
+        con.query(`Select * from Categories;`, (err, categories) => {
+            if (err) {
+                console.log(err)
+            } else {
+                con.query(`Select * from Suppliers;`, (err, suppliers) => {
+                    if (err) {
+                        console.log(err)
+                    }
+                    console.log(categories)
+                    res.render('admin/new_prod', { categories: categories.rows, suppliers: suppliers.rows, user: req.user, });
+
+                });
+            }
+
+        });
+    });
+
+}
 
 exports.get_prods = function(req, res, next) {
 

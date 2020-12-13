@@ -6,13 +6,15 @@ html(lang='en')
     header
     include common/navbar.pug 
     +navbar(user)
-    .container
+    .container.text-center
       h1= title
       if message
         h2.text-success #{message}
       p Welcome to #{title}      
       if user 
-        h3 You enter as  #{user.username}
+        h3 Вы вошли как:  #{user.username}
+      else
+        h3.text-danger Зарегистрируйтесь чтобы сделать заказ
       .container
         if products
           .row.row-cols-3
@@ -20,9 +22,9 @@ html(lang='en')
               .col.card(style='width: 18rem;')
                 img.card-img-top(src='/images/no.png' alt=prod.name)
                 .card-body
-                  h5.card-title #{prod.name}
-                  p.card-text #{prod.category}
-                  p.card-text  #{prod.supplier}
+                  h5.card-title.text-danger #{prod.name}
+                  p.card-text.text-info Категория: #{prod.cat_name}
+                  p.card-text.text-warning Поставщик: #{prod.sup_name}
                   if user
                     button.btn.btn-primary(id=prod.id) Заказать
 

@@ -13,10 +13,8 @@ $(document).ready(function() {
 
 
     $('#post_category').on('click', function(e) {
-
-
         $('.modal').modal('show')
-
+        console.log('smth')
         e.preventDefault();
     });
 

@@ -1,0 +1,30 @@
+doctype html
+html(lang='en')
+  include ../common/head.pug
+  +head("MyShopApp")
+  body
+    header
+    include ../common/navbar.pug 
+    +navbar(user)
+    .container
+      h1= title
+
+      form(action='/add_product',method='POST')
+          .formgroup
+              lable.small.mb-1.mt-3 Товар:
+              input(id="product"  name='product').form-control
+              lable.small.mb-1.mt-3 Категория:
+              input(id="id_category"  name='id_category' list="categories").form-control
+              datalist(id="categories")
+                       if categories
+                          for category in categories
+                              option(value=category.cat_name) #{category.id}
+              lable.small.mb-1.mt-3 Цена:
+              input(placeholder='Цена',id="cost"  name='cost').form-control   
+              lable.small.mb-1.mt-3 Количество:
+              input(placeholder='Количество', required=true, name='count', type='text').form-control
+              lable.small.mb-1.mt-3 Гарантия:
+              input(placeholder='Количество', required=true, name='garanty', type='number').form-control
+              button.mt-3.btn.btn-primary(type='submit') Добавить
+    include ../common/footer.pug
+    +footer()

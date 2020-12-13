@@ -1,0 +1,28 @@
+doctype html
+html(lang='en')
+  include ../common/head.pug
+  +head("MyShopApp")
+  body
+    header
+    include ../common/navbar.pug 
+    +navbar(user)
+    .container
+      h1= title
+      for prod in products
+                h1 #{prod}
+      form(action='/add_supplier',method='POST')
+            if products.length>0 
+             .formgroup
+                lable.small.mb-1.mt-3 Товар:
+                input(id="prod"  name='prod' list="prods").form-control
+                datalist(id="prods")
+                            for prod in products
+                                option(value=prod.id_product) #{prod.name}
+                lable.small.mb-1.mt-3 Поставщик:
+                input(id="name"  name='name' ).form-control
+                button.mt-3.btn.btn-primary(type='submit') Добавить
+            else
+              h1.text-danger Добвьте продукт, прежде чем назначать поставщика
+
+    include ../common/footer.pug
+    +footer()

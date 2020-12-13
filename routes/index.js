@@ -24,7 +24,9 @@ router.post('/order', main.new_order);
 router.get('/req', main.get_orders);
 
 router.post('/add_category', main.add_category);
+router.get('/get_sup', main.get_sup);
 router.post('/add_supplier', main.add_supplier);
+router.get('/get_add_product', main.get_add_product);
 router.post('/add_product', main.add_product);
 
 router.get('/prods', main.get_prods);

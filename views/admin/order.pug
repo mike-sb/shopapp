@@ -13,8 +13,8 @@ html(lang='en')
       form(action='/order',method='POST')
           .formgroup
               lable.small.mb-1.mt-3 Товар:
-                    input(id="product"  name='product' list="products").form-control
-                    datalist( id="products")
+              input(id="product"  name='product' list="products").form-control
+              datalist( id="products")
                        if products
                           for product in products
                               option(value=product.name) #{product.id}
